@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nebula Scents - Futuristic Perfume Shop</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Rajdhani:wght@400;600&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdn.snipcart.com/themes/v3.0.31/default/snipcart.css" />
+    <script async src="https://cdn.snipcart.com/themes/v3.0.31/default/snipcart.js"></script>
+    <div hidden id="snipcart" data-api-key="YTM0N2UzOTgyYzZCOOYWRiLTk0ZDQtYTIjYTkzZGQxZGQwNjM4OTgxOTEwNjE4NzM2MzAz"></div>
+    </head> <body>
+      
+    <style>
+        /* Futuristic Color Variables */
+        :root {
+            --bg-dark: #080A0B;
+            --accent-cyan: #00E8C7;
+            --accent-magenta: #FF0099;
+            --text-light: #FAFAFA;
+            --border-grey: #2C3E50;
+        }
+
+        /* Base Styling */
+        body {
+            font-family: 'Rajdhani', sans-serif;
+            margin: 0;
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            line-height: 1.6;
+        }
+
+        h1, h2 {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--accent-cyan);
+            letter-spacing: 3px;
+        }
+
+        /* --- Header and Navigation --- */
+        header {
+            padding: 20px 50px;
+            border-bottom: 1px solid var(--border-grey);
+        }
+        .logo {
+            font-size: 2em;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+        .logo span {
+            color: var(--accent-magenta);
+        }
+
+        /* --- Scent Alchemist Filter Section --- */
+        .filter-section {
+            padding: 40px 50px;
+            text-align: center;
+        }
+        .filter-tags {
+            margin-top: 30px;
+        }
+        .tag {
+            display: inline-block;
+            padding: 8px 15px;
+            margin: 5px;
+            border: 1px solid var(--accent-cyan);
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            font-size: 0.9em;
+        }
+        .tag:hover, .tag.active {
+            background-color: var(--accent-cyan);
+            color: var(--bg-dark);
+            box-shadow: 0 0 10px var(--accent-cyan);
+        }
+
+        /* --- Product Grid --- */
+        #product-listing {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            padding: 50px;
+        }
+        .product-card {
+            background-color: #1A1A1A;
+            border: 1px solid var(--border-grey);
+            padding: 20px;
+            border-radius: 8px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            text-align: center;
+        }
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 15px var(--accent-cyan);
+        }
+        .product-card h3 {
+            color: var(--text-light);
+            font-family: 'Orbitron', sans-serif;
+            margin-bottom: 5px;
+        }
+        .product-card p.price {
+            color: var(--accent-cyan);
+            font-size: 1.5em;
+            font-weight: 600;
+        }
+        .buy-btn {
+            background-color: var(--accent-magenta);
+            color: var(--text-light);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            text-transform: uppercase;
+            font-weight: 600;
+            margin-top: 15px;
+            transition: background-color 0.3s ease;
+        }
+        .buy-btn:hover {
+            background-color: #CC007A;
+            box-shadow: 0 0 10px var(--accent-magenta);
+        }
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">NEBULA<span>SCENTS</span></div>
+    </header>
+
+    <main>
+        <div class="filter-section">
+            <h2>SCENT ALCHEMIST</h2>
+            <p>FILTER BY EMOTION OR MOLECULAR STRUCTURE</p>
+            <div class="filter-tags" id="filter-tags">
+                <div class="tag" data-filter="energy">ENERGY BOOST</div>
+                <div class="tag" data-filter="metallic">METALLIC NOTES</div>
+                <div class="tag" data-filter="calm">CALM STATE</div>
+                <div class="tag" data-filter="sweet">SWEET SYNTHETICS</div>
+            </div>
+        </div>
+
+        <section id="product-listing">
+            </section>
+    </main>
+
+    <script>
+        // --- 1. Product Data (Simulated Database) ---
+        const products = [
+            { id: 1, name: "CYBER FOG", price: 89.99, image: "product1.jpg", tags: ["energy", "synthetic"] },
+            { id: 2, name: "ORBITAL CALM", price: 129.50, image: "product2.jpg", tags: ["calm", "sweet"] },
+            { id: 3, name: "QUANTUM STEEL", price: 99.00, image: "product3.jpg", tags: ["metallic", "energy"] },
+            { id: 4, name: "BIO DREAM", price: 119.00, image: "product4.jpg", tags: ["calm", "sweet", "synthetic"] }
+        ];
+
+        // --- 2. Rendering Function ---
+        const productListing = document.getElementById('product-listing');
+
+        function renderProducts(filteredProducts) {
+            productListing.innerHTML = ''; // Clear current products
+            
+            (filteredProducts || products).forEach(product => {
+                const card = document.createElement('div');
+                card.className = 'product-card';
+                // Note: Replace the placeholder image URL with your actual image path on GitHub
+                card.innerHTML = `
+                    <img src="${product.image}" alt="${product.name}" style="width:100%; height:200px; object-fit:cover; margin-bottom:15px; border-radius:5px;">
+                    <h3>${product.name}</h3>
+                    <p class="price">$${product.price.toFixed(2)}</p>
+                    <button <button 
+                        class="buy-btn snipcart-add-item" 
+                        data-item-id="${product.id}"
+                        data-item-price="${product.price}"
+                        data-item-name="${product.name}"
+                        data-item-url="/" 
+                        data-item-image="${product.image}">
+                        ADD TO CART
+                    </button>
+                    <p style="font-size:0.8em; color:var(--accent-cyan); margin-top:5px;">Tags: ${product.tags.join(', ').toUpperCase()}</p>
+                `;
+                productListing.appendChild(card);
+            });
+        }
+
+        // --- 3. Filter Logic ---
+        document.getElementById('filter-tags').addEventListener('click', function(e) {
+            if (e.target.classList.contains('tag')) {
+                const filterTag = e.target.dataset.filter;
+                
+                // Toggle active state
+                document.querySelectorAll('.tag').forEach(tag => tag.classList.remove('active'));
+                e.target.classList.add('active');
+
+                // Filter logic
+                const filtered = products.filter(product => product.tags.includes(filterTag));
+                renderProducts(filtered);
+            }
+        });
+
+        // Initial load
+        renderProducts();
+
+    </script>
+</body>
+</html>
